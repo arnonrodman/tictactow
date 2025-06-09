@@ -1,5 +1,6 @@
 import type { Metadata } from "next";
 import "./globals.css";
+import TetrisBackground from '../components/TetrisBackground';
 
 export const metadata: Metadata = {
   title: "Create Next App",
@@ -13,7 +14,10 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="en">
-      <body style={{ fontFamily: 'system-ui, sans-serif' }}>{children}</body>
+      <body style={{ fontFamily: 'system-ui, sans-serif', position: 'relative' }}>
+        <TetrisBackground />
+        {children}
+      </body>
     </html>
   );
 }
