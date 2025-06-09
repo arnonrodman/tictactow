@@ -16,7 +16,7 @@ export default function Home() {
   const [playerName, setPlayerName] = useState('');
   const [playerWord, setPlayerWord] = useState('');
   const [playerColor, setPlayerColor] = useState('#2563eb');
-  const [gameMode, setGameMode] = useState('words');
+  const [gameMode, setGameMode] = useState('regular');
   const router = useRouter();
 
   const handleCreateRoom = async () => {
