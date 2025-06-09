@@ -23,7 +23,19 @@
 }
 
 body {
-  background: var(--background);
+  background: radial-gradient(circle at 60% 50%, #b3e0ff 0%, #2196f3 60%, #2196f3 100%);
   color: var(--foreground);
   font-family: system-ui, sans-serif;
+  position: relative;
+}
+body::before {
+  content: '';
+  position: fixed;
+  top: 0; left: 0; right: 0; bottom: 0;
+  pointer-events: none;
+  background-image:
+    linear-gradient(rgba(255,255,255,0.04) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(255,255,255,0.04) 1px, transparent 1px);
+  background-size: 32px 32px;
+  z-index: 0;
 }

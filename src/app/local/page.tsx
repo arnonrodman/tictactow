@@ -89,8 +89,8 @@ export default function LocalGame() {
   );
 
   return (
-    <div className="min-h-screen w-full flex flex-col items-center justify-center bg-gradient-to-br from-blue-100 via-purple-100 to-pink-100 p-4">
-      <div className="bg-white/90 shadow-2xl rounded-3xl p-8 max-w-md w-full flex flex-col items-center border border-blue-200">
+    <div className="min-h-screen w-full flex flex-col items-center justify-center bg-transparent p-4">
+      <div className="bg-[#222a4d]/95 shadow-2xl rounded-3xl p-8 max-w-md w-full flex flex-col items-center border-4 border-[#3f51b5] relative z-10">
         <button
           className="mb-4 px-4 py-2 bg-white text-blue-700 border border-blue-200 rounded-full shadow hover:bg-blue-50 transition self-start"
           onClick={() => router.push('/')}
@@ -127,7 +127,7 @@ export default function LocalGame() {
             </div>
             <div className="flex flex-col gap-2 w-full mb-4">
               <input
-                className="px-4 py-2 border rounded w-full text-lg text-gray-900"
+                className="px-4 py-2 border-2 border-yellow-300 rounded w-full text-lg text-gray-900 bg-yellow-50 placeholder:text-blue-700"
                 type="text"
                 placeholder="Player 1 Name"
                 value={p1}
@@ -135,7 +135,7 @@ export default function LocalGame() {
               />
               {gameMode === 'words' && (
                 <input
-                  className="px-4 py-2 border rounded w-full uppercase text-lg text-gray-900"
+                  className="px-4 py-2 border-2 border-yellow-300 rounded w-full uppercase text-lg text-gray-900 bg-yellow-50 placeholder:text-blue-700"
                   type="text"
                   placeholder="P1 3-letter Word"
                   maxLength={3}
@@ -145,7 +145,7 @@ export default function LocalGame() {
               )}
               {gameMode === 'emoji' && (
                 <input
-                  className="px-4 py-2 border rounded w-full text-2xl text-gray-900"
+                  className="px-4 py-2 border-2 border-yellow-300 rounded w-full text-2xl text-gray-900 bg-yellow-50 placeholder:text-blue-700"
                   type="text"
                   placeholder="P1 Emoji (e.g. 😎)"
                   maxLength={2}
@@ -155,14 +155,14 @@ export default function LocalGame() {
               )}
               {gameMode !== 'regular' && (
                 <input
-                  className="px-4 py-2 border rounded w-full"
+                  className="px-4 py-2 border-2 border-yellow-300 rounded w-full"
                   type="color"
                   value={p1Color}
                   onChange={e => setP1Color(e.target.value)}
                 />
               )}
               <input
-                className="px-4 py-2 border rounded w-full text-lg text-gray-900"
+                className="px-4 py-2 border-2 border-yellow-300 rounded w-full text-lg text-gray-900 bg-yellow-50 placeholder:text-blue-700"
                 type="text"
                 placeholder="Player 2 Name"
                 value={p2}
@@ -170,7 +170,7 @@ export default function LocalGame() {
               />
               {gameMode === 'words' && (
                 <input
-                  className="px-4 py-2 border rounded w-full uppercase text-lg text-gray-900"
+                  className="px-4 py-2 border-2 border-yellow-300 rounded w-full uppercase text-lg text-gray-900 bg-yellow-50 placeholder:text-blue-700"
                   type="text"
                   placeholder="P2 3-letter Word"
                   maxLength={3}
@@ -180,7 +180,7 @@ export default function LocalGame() {
               )}
               {gameMode === 'emoji' && (
                 <input
-                  className="px-4 py-2 border rounded w-full text-2xl text-gray-900"
+                  className="px-4 py-2 border-2 border-yellow-300 rounded w-full text-2xl text-gray-900 bg-yellow-50 placeholder:text-blue-700"
                   type="text"
                   placeholder="P2 Emoji (e.g. 😎)"
                   maxLength={2}
@@ -190,7 +190,7 @@ export default function LocalGame() {
               )}
               {gameMode !== 'regular' && (
                 <input
-                  className="px-4 py-2 border rounded w-full"
+                  className="px-4 py-2 border-2 border-yellow-300 rounded w-full"
                   type="color"
                   value={p2Color}
                   onChange={e => setP2Color(e.target.value)}
@@ -222,6 +222,9 @@ export default function LocalGame() {
                 {board.map((cell, idx) => {
                   const isWinning = winningCells.includes(idx);
                   let display = cell;
+                  let cellColor = 'bg-white';
+                  if (cell === p1Word) cellColor = 'bg-yellow-400';
+                  else if (cell === p2Word) cellColor = 'bg-pink-500';
                   if (gameMode === 'regular') {
                     if (cell === p1Word) display = 'X';
                     else if (cell === p2Word) display = 'O';
@@ -229,12 +232,7 @@ export default function LocalGame() {
                   return (
                     <button
                       key={idx}
-                      className={`aspect-square w-20 sm:w-24 rounded text-2xl font-bold border-2 flex items-center justify-center transition-all
-                        ${cell === p1Word ? `text-white` : cell === p2Word ? `text-white` : 'text-gray-700'}
-                        ${cell === p1Word ? `bg-[${p1Color}]` : cell === p2Word ? `bg-[${p2Color}]` : 'bg-white'}
-                        ${isWinning ? 'ring-4 ring-green-400' : ''}
-                        ${winner || isDraw || cell ? 'cursor-not-allowed opacity-60' : 'hover:bg-gray-200 cursor-pointer'}
-                      `}
+                      className={`aspect-square w-20 sm:w-24 rounded text-2xl font-bold border-2 flex items-center justify-center transition-all ${cellColor} ${isWinning ? 'ring-4 ring-green-400' : ''} ${winner || isDraw || cell ? 'cursor-not-allowed opacity-60' : 'hover:scale-105 hover:brightness-110 cursor-pointer'}`}
                       style={cell === p1Word ? { backgroundColor: p1Color } : cell === p2Word ? { backgroundColor: p2Color } : {}}
                       disabled={!!cell || !!winner || isDraw}
                       onClick={() => handleCellClick(idx)}

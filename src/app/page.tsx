@@ -69,14 +69,14 @@ export default function Home() {
   };
 
   return (
-    <div className="min-h-screen w-full flex items-center justify-center bg-gradient-to-br from-blue-100 via-purple-100 to-pink-100">
-      <div className="bg-white/90 shadow-2xl rounded-3xl p-8 max-w-md w-full flex flex-col items-center border border-blue-200">
-        <h1 className="text-4xl font-extrabold mb-2 flex items-center gap-2 text-blue-700 drop-shadow-lg">
-          <span role="img" aria-label="game">🎮</span> Tic-Tac-Toe
+    <div className="min-h-screen w-full flex items-center justify-center bg-transparent">
+      <div className="bg-[#222a4d]/95 shadow-2xl rounded-3xl p-8 max-w-md w-full flex flex-col items-center border-4 border-[#3f51b5] relative z-10">
+        <h1 className="text-4xl font-extrabold mb-2 flex items-center gap-2 text-yellow-400 drop-shadow-lg">
+          <span role="img" aria-label="game">🟦</span> Tic-Tac-Toe
         </h1>
-        <p className="mb-6 text-lg text-gray-600 font-medium">Play with a friend in real time or locally!</p>
+        <p className="mb-6 text-lg text-blue-200 font-medium">Play with a friend in real time or locally!</p>
         <button
-          className="mb-6 px-8 py-3 bg-purple-600 text-white rounded-xl text-lg font-bold shadow hover:bg-purple-700 transition w-full"
+          className="mb-6 px-8 py-3 bg-gradient-to-r from-yellow-400 via-pink-500 to-blue-400 text-white rounded-xl text-lg font-bold shadow-lg hover:scale-105 transition w-full border-2 border-yellow-300"
           onClick={() => router.push('/local')}
         >
           Play Local (Same Device)
@@ -102,7 +102,7 @@ export default function Home() {
         </div>
         <div className="flex flex-col items-center w-full mb-4">
           <input
-            className="mb-2 px-4 py-2 border rounded w-full text-lg text-gray-900"
+            className="mb-2 px-4 py-2 border-2 border-yellow-300 rounded w-full text-lg text-gray-900 bg-yellow-50 placeholder:text-blue-700"
             type="text"
             placeholder="Your Name"
             value={playerName}
@@ -111,7 +111,7 @@ export default function Home() {
           {gameMode === 'words' && (
             <>
               <input
-                className="mb-2 px-4 py-2 border rounded w-full uppercase text-lg text-gray-900"
+                className="mb-2 px-4 py-2 border-2 border-yellow-300 rounded w-full uppercase text-lg text-gray-900 bg-yellow-50 placeholder:text-blue-700"
                 type="text"
                 placeholder="Your 3-letter Word"
                 maxLength={3}
@@ -119,7 +119,7 @@ export default function Home() {
                 onChange={e => setPlayerWord(e.target.value)}
               />
               <input
-                className="mb-2 px-4 py-2 border rounded w-full"
+                className="mb-2 px-4 py-2 border-2 border-yellow-300 rounded w-full bg-yellow-50"
                 type="color"
                 value={playerColor}
                 onChange={e => setPlayerColor(e.target.value)}
@@ -128,7 +128,7 @@ export default function Home() {
           )}
           {gameMode === 'emoji' && (
             <input
-              className="mb-2 px-4 py-2 border rounded w-full text-2xl text-gray-900"
+              className="mb-2 px-4 py-2 border-2 border-yellow-300 rounded w-full text-2xl text-gray-900 bg-yellow-50 placeholder:text-blue-700"
               type="text"
               placeholder="Your Emoji (e.g. 😎)"
               maxLength={2}
@@ -146,7 +146,7 @@ export default function Home() {
         </button>
         <div className="flex flex-col items-center w-full">
           <input
-            className="mb-2 px-4 py-2 border rounded w-full uppercase text-lg text-gray-900"
+            className="mb-2 px-4 py-2 border-2 border-yellow-300 rounded w-full uppercase text-lg text-gray-900 bg-yellow-50 placeholder:text-blue-700"
             type="text"
             placeholder="Enter Room Code"
             value={roomCode}

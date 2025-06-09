@@ -75,7 +75,7 @@ const LobbyPage = () => {
         <label className="mb-2 w-full">
           <span className="block mb-1 font-semibold">Game Mode</span>
           <select
-            className="w-full px-4 py-2 border rounded"
+            className="w-full px-4 py-2 border-2 border-yellow-300 rounded"
             value={gameMode}
             onChange={e => setGameMode(e.target.value)}
           >
@@ -85,7 +85,7 @@ const LobbyPage = () => {
           </select>
         </label>
         <input
-          className="mb-2 px-4 py-2 border rounded w-full"
+          className="mb-2 px-4 py-2 border-2 border-yellow-300 rounded w-full text-lg text-gray-900 bg-yellow-50 placeholder:text-blue-700"
           type="text"
           placeholder="Your Name"
           value={playerName}
@@ -94,7 +94,7 @@ const LobbyPage = () => {
         {gameMode === 'words' && (
           <>
             <input
-              className="mb-2 px-4 py-2 border rounded w-full uppercase"
+              className="mb-2 px-4 py-2 border-2 border-yellow-300 rounded w-full uppercase text-lg text-gray-900 bg-yellow-50 placeholder:text-blue-700"
               type="text"
               placeholder="Your 3-letter Word"
               maxLength={3}
@@ -102,7 +102,7 @@ const LobbyPage = () => {
               onChange={e => setPlayerWord(e.target.value)}
             />
             <input
-              className="mb-2 px-4 py-2 border rounded w-full"
+              className="mb-2 px-4 py-2 border-2 border-yellow-300 rounded w-full bg-yellow-50"
               type="color"
               value={playerColor}
               onChange={e => setPlayerColor(e.target.value)}
@@ -111,7 +111,7 @@ const LobbyPage = () => {
         )}
         {gameMode === 'emoji' && (
           <input
-            className="mb-2 px-4 py-2 border rounded w-full text-2xl"
+            className="mb-2 px-4 py-2 border-2 border-yellow-300 rounded w-full text-2xl text-gray-900 bg-yellow-50 placeholder:text-blue-700"
             type="text"
             placeholder="Your Emoji (e.g. 😎)"
             maxLength={2}
@@ -129,7 +129,7 @@ const LobbyPage = () => {
       </button>
       <div className="flex flex-col items-center w-full max-w-xs">
         <input
-          className="mb-2 px-4 py-2 border rounded w-full uppercase"
+          className="mb-2 px-4 py-2 border-2 border-yellow-300 rounded w-full uppercase text-lg text-gray-900 bg-yellow-50 placeholder:text-blue-700"
           type="text"
           placeholder="Enter Room Code"
           value={roomCode}

@@ -174,87 +174,87 @@ const GamePage = () => {
   if (!room) return <div className="flex items-center justify-center min-h-screen">Room not found.</div>;
 
   return (
-    <div className="flex flex-col items-center justify-center min-h-screen bg-gray-100 p-4">
-      <h1 className="text-2xl font-bold mb-2 flex items-center gap-2 text-gray-900">Room: {roomCode}</h1>
-      <div className="mb-2 text-lg font-semibold text-gray-800">Mode: {gameMode === 'regular' ? 'Regular (X/O)' : gameMode === 'words' ? 'Words (3-letter)' : 'Emoji'}</div>
-      <div className="flex items-center mb-2 text-gray-900">
-        {renderAvatar(room.player1_name, room.player1_color)}
-        <span className="mr-4">{room.player1_name} ({gameMode === 'regular' ? 'X' : gameMode === 'words' ? room.player1_word : room.player1_word})</span>
-        <span className="mx-2">vs</span>
-        {renderAvatar(room.player2_name, room.player2_color)}
-        <span>{room.player2_name || 'Waiting...'} ({gameMode === 'regular' ? 'O' : gameMode === 'words' ? room.player2_word : room.player2_word || '...'})</span>
-      </div>
-      <div className="mb-2">
-        {room.status === 'waiting' && <span className="text-yellow-600">Waiting for opponent...</span>}
-        {room.status === 'active' && (
-          <span className="text-blue-700 font-semibold">
-            {myTurn ? 'Your turn!' : 'Waiting for opponent...'}
-          </span>
-        )}
-        {room.status === 'finished' && (
-          <span className="text-green-700 font-semibold">
-            {room.is_draw
-              ? 'Draw!'
-              : room.winner_id === playerId
-              ? 'You win!'
-              : 'You lose!'}
-          </span>
-        )}
-      </div>
-      <div className="w-full max-w-xs">
-        <div className="grid grid-cols-3 gap-2">
-          {board.map((cell, idx) => {
-            const isWinning = room.winning_cells?.includes(idx);
-            let display = cell;
-            if (gameMode === 'regular') {
-              if (cell === room.player1_word) display = 'X';
-              else if (cell === room.player2_word) display = 'O';
-            }
-            return (
-              <button
-                key={idx}
-                className={`aspect-square w-20 sm:w-24 rounded text-2xl font-bold border-2 flex items-center justify-center transition-all
-                  ${cell === room.player1_word ? `text-white` : cell === room.player2_word ? `text-white` : 'text-gray-700'}
-                  ${cell === room.player1_word ? `bg-[${room.player1_color}]` : cell === room.player2_word ? `bg-[${room.player2_color}]` : 'bg-white'}
-                  ${isWinning ? 'ring-4 ring-green-400' : ''}
-                  ${!myTurn || cell || room.status !== 'active' ? 'cursor-not-allowed opacity-60' : 'hover:bg-gray-200 cursor-pointer'}
-                `}
-                style={cell === room.player1_word ? { backgroundColor: room.player1_color } : cell === room.player2_word ? { backgroundColor: room.player2_color } : {}}
-                disabled={!myTurn || !!cell || room.status !== 'active' || moveLoading}
-                onClick={() => handleCellClick(idx)}
-              >
-                {display}
-              </button>
-            );
-          })}
+    <div className="flex flex-col items-center justify-center min-h-screen bg-transparent p-4">
+      <div className="bg-[#222a4d]/95 shadow-2xl rounded-3xl p-8 max-w-md w-full flex flex-col items-center border-4 border-[#3f51b5] relative z-10">
+        <h1 className="text-2xl font-bold mb-2 flex items-center gap-2 text-gray-900">Room: {roomCode}</h1>
+        <div className="mb-2 text-lg font-semibold text-gray-800">Mode: {gameMode === 'regular' ? 'Regular (X/O)' : gameMode === 'words' ? 'Words (3-letter)' : 'Emoji'}</div>
+        <div className="flex items-center mb-2 text-gray-900">
+          {renderAvatar(room.player1_name, room.player1_color)}
+          <span className="mr-4">{room.player1_name} ({gameMode === 'regular' ? 'X' : gameMode === 'words' ? room.player1_word : room.player1_word})</span>
+          <span className="mx-2">vs</span>
+          {renderAvatar(room.player2_name, room.player2_color)}
+          <span>{room.player2_name || 'Waiting...'} ({gameMode === 'regular' ? 'O' : gameMode === 'words' ? room.player2_word : room.player2_word || '...'})</span>
         </div>
+        <div className="mb-2">
+          {room.status === 'waiting' && <span className="text-yellow-600">Waiting for opponent...</span>}
+          {room.status === 'active' && (
+            <span className="text-blue-700 font-semibold">
+              {myTurn ? 'Your turn!' : 'Waiting for opponent...'}
+            </span>
+          )}
+          {room.status === 'finished' && (
+            <span className="text-green-700 font-semibold">
+              {room.is_draw
+                ? 'Draw!'
+                : room.winner_id === playerId
+                ? 'You win!'
+                : 'You lose!'}
+            </span>
+          )}
+        </div>
+        <div className="w-full max-w-xs">
+          <div className="grid grid-cols-3 gap-2">
+            {board.map((cell, idx) => {
+              const isWinning = room.winning_cells?.includes(idx);
+              let display = cell;
+              let cellColor = 'bg-white';
+              if (cell === room.player1_word) cellColor = 'bg-yellow-400';
+              else if (cell === room.player2_word) cellColor = 'bg-pink-500';
+              if (gameMode === 'regular') {
+                if (cell === room.player1_word) display = 'X';
+                else if (cell === room.player2_word) display = 'O';
+              }
+              return (
+                <button
+                  key={idx}
+                  className={`aspect-square w-20 sm:w-24 rounded text-2xl font-bold border-2 flex items-center justify-center transition-all ${cellColor} ${isWinning ? 'ring-4 ring-green-400' : ''} ${!myTurn || cell || room.status !== 'active' ? 'cursor-not-allowed opacity-60' : 'hover:scale-105 hover:brightness-110 cursor-pointer'}`}
+                  style={cell === room.player1_word ? { backgroundColor: room.player1_color } : cell === room.player2_word ? { backgroundColor: room.player2_color } : {}}
+                  disabled={!myTurn || !!cell || room.status !== 'active' || moveLoading}
+                  onClick={() => handleCellClick(idx)}
+                >
+                  {display}
+                </button>
+              );
+            })}
+          </div>
+        </div>
+        <div className="mt-4 text-sm text-gray-600">
+          <div>You: <span style={{ color: myColor }}>{gameMode === 'regular' ? regularSymbols : myWord}</span></div>
+          <div>Opponent: <span style={{ color: oppColor }}>{gameMode === 'regular' ? oppSymbol : oppWord || '...'}</span></div>
+        </div>
+        {room.status === 'finished' && (
+          <button
+            className="mt-4 px-6 py-2 bg-purple-600 text-white rounded hover:bg-purple-700 transition"
+            onClick={handleRematch}
+            disabled={rematchRequested}
+          >
+            {rematchRequested ? (opponentRematch ? 'Rematching...' : 'Waiting for opponent...') : 'Rematch'}
+          </button>
+        )}
+        {error && <div className="mt-4 text-red-500">{error}</div>}
+        {room.status === 'active' && !room.player2_id && (
+          <div className="mt-4 text-yellow-600">Opponent left or not joined yet.</div>
+        )}
+        <div className="mt-8 w-full flex justify-center">
+          <button
+            className="flex items-center gap-2 px-4 py-2 bg-white text-blue-700 border border-blue-200 rounded-full shadow hover:bg-blue-50 transition"
+            onClick={() => router.push('/')}
+          >
+            <span className="text-xl">←</span> <span className="font-semibold">Back to Lobby</span>
+          </button>
+        </div>
+        {showConfetti && width > 0 && height > 0 && <Confetti width={width} height={height} />}
       </div>
-      <div className="mt-4 text-sm text-gray-600">
-        <div>You: <span style={{ color: myColor }}>{gameMode === 'regular' ? regularSymbols : myWord}</span></div>
-        <div>Opponent: <span style={{ color: oppColor }}>{gameMode === 'regular' ? oppSymbol : oppWord || '...'}</span></div>
-      </div>
-      {room.status === 'finished' && (
-        <button
-          className="mt-4 px-6 py-2 bg-purple-600 text-white rounded hover:bg-purple-700 transition"
-          onClick={handleRematch}
-          disabled={rematchRequested}
-        >
-          {rematchRequested ? (opponentRematch ? 'Rematching...' : 'Waiting for opponent...') : 'Rematch'}
-        </button>
-      )}
-      {error && <div className="mt-4 text-red-500">{error}</div>}
-      {room.status === 'active' && !room.player2_id && (
-        <div className="mt-4 text-yellow-600">Opponent left or not joined yet.</div>
-      )}
-      <div className="mt-8 w-full flex justify-center">
-        <button
-          className="flex items-center gap-2 px-4 py-2 bg-white text-blue-700 border border-blue-200 rounded-full shadow hover:bg-blue-50 transition"
-          onClick={() => router.push('/')}
-        >
-          <span className="text-xl">←</span> <span className="font-semibold">Back to Lobby</span>
-        </button>
-      </div>
-      {showConfetti && width > 0 && height > 0 && <Confetti width={width} height={height} />}
     </div>
   );
 };
