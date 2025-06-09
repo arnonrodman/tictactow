@@ -28,5 +28,6 @@
   },
   "engines": {
     "node": "18.x"
-  }
+  },
+  "_note": "ESLint errors are ignored during build via next.config.js (see next.config.js for details)"
 }
