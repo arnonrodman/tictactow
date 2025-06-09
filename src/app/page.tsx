@@ -69,23 +69,23 @@ export default function Home() {
   };
 
   return (
-    <div className="min-h-screen w-full flex items-center justify-center bg-transparent">
-      <div className="bg-[#222a4d]/95 shadow-2xl rounded-3xl p-8 max-w-md w-full flex flex-col items-center border-4 border-[#3f51b5] relative z-10">
-        <h1 className="text-4xl font-extrabold mb-2 flex items-center gap-2 text-yellow-400 drop-shadow-lg">
+    <div className="min-h-screen w-full flex items-center justify-center bg-transparent px-2 sm:px-0">
+      <div className="bg-[#222a4d]/95 shadow-2xl rounded-3xl p-3 sm:p-8 max-w-md w-full flex flex-col items-center border-4 border-[#3f51b5] relative z-10 overflow-y-auto max-h-[98vh]">
+        <h1 className="text-2xl sm:text-4xl font-extrabold mb-1 sm:mb-2 flex items-center gap-2 text-yellow-400 drop-shadow-lg">
           <span role="img" aria-label="game">🟦</span> Tic-Tac-Toe
         </h1>
-        <p className="mb-6 text-lg text-blue-200 font-medium">Play with a friend in real time or locally!</p>
+        <p className="mb-3 sm:mb-6 text-base sm:text-lg text-blue-200 font-medium text-center">Play with a friend in real time or locally!</p>
         <button
-          className="mb-6 px-8 py-3 bg-gradient-to-r from-yellow-400 via-pink-500 to-blue-400 text-white rounded-xl text-lg font-bold shadow-lg hover:scale-105 transition w-full border-2 border-yellow-300"
+          className="mb-3 sm:mb-6 px-4 sm:px-8 py-2 sm:py-3 bg-gradient-to-r from-yellow-400 via-pink-500 to-blue-400 text-white rounded-xl text-base sm:text-lg font-bold shadow-lg hover:scale-105 transition w-full border-2 border-yellow-300"
           onClick={() => router.push('/local')}
         >
           Play Local (Same Device)
         </button>
-        <div className="w-full mb-6">
-          <span className="block mb-2 font-semibold text-gray-700">Choose Game Mode</span>
-          <div className="flex flex-col gap-2">
+        <div className="w-full mb-3 sm:mb-6">
+          <span className="block mb-1 sm:mb-2 font-semibold text-gray-700 text-sm sm:text-base">Choose Game Mode</span>
+          <div className="flex flex-col gap-1 sm:gap-2">
             {GAME_MODES.map(mode => (
-              <label key={mode.value} className={`flex items-center gap-3 p-3 rounded-xl border-2 cursor-pointer transition-all ${gameMode === mode.value ? 'border-blue-500 bg-blue-50' : 'border-gray-200 bg-white'} hover:border-blue-400`}>
+              <label key={mode.value} className={`flex items-center gap-2 sm:gap-3 p-2 sm:p-3 rounded-xl border-2 cursor-pointer transition-all ${gameMode === mode.value ? 'border-blue-500 bg-blue-50' : 'border-gray-200 bg-white'} hover:border-blue-400 text-xs sm:text-base`}>
                 <input
                   type="radio"
                   className="accent-blue-600"
@@ -93,16 +93,16 @@ export default function Home() {
                   checked={gameMode === mode.value}
                   onChange={() => setGameMode(mode.value)}
                 />
-                <span className="text-2xl">{mode.icon}</span>
+                <span className="text-lg sm:text-2xl">{mode.icon}</span>
                 <span className="font-bold text-gray-800">{mode.label}</span>
-                <span className="text-xs text-gray-500 ml-2">{mode.desc}</span>
+                <span className="hidden sm:inline text-xs text-gray-500 ml-2">{mode.desc}</span>
               </label>
             ))}
           </div>
         </div>
-        <div className="flex flex-col items-center w-full mb-4">
+        <div className="flex flex-col items-center w-full mb-2 sm:mb-4">
           <input
-            className="mb-2 px-4 py-2 border-2 border-yellow-300 rounded w-full text-lg text-gray-900 bg-yellow-50 placeholder:text-blue-700"
+            className="mb-2 px-3 sm:px-4 py-2 border-2 border-yellow-300 rounded w-full text-base sm:text-lg text-gray-900 bg-yellow-50 placeholder:text-blue-700"
             type="text"
             placeholder="Your Name"
             value={playerName}
@@ -111,7 +111,7 @@ export default function Home() {
           {gameMode === 'words' && (
             <>
               <input
-                className="mb-2 px-4 py-2 border-2 border-yellow-300 rounded w-full uppercase text-lg text-gray-900 bg-yellow-50 placeholder:text-blue-700"
+                className="mb-2 px-3 sm:px-4 py-2 border-2 border-yellow-300 rounded w-full uppercase text-base sm:text-lg text-gray-900 bg-yellow-50 placeholder:text-blue-700"
                 type="text"
                 placeholder="Your 3-letter Word"
                 maxLength={3}
@@ -119,7 +119,7 @@ export default function Home() {
                 onChange={e => setPlayerWord(e.target.value)}
               />
               <input
-                className="mb-2 px-4 py-2 border-2 border-yellow-300 rounded w-full bg-yellow-50"
+                className="mb-2 px-3 sm:px-4 py-2 border-2 border-yellow-300 rounded w-full bg-yellow-50"
                 type="color"
                 value={playerColor}
                 onChange={e => setPlayerColor(e.target.value)}
@@ -128,7 +128,7 @@ export default function Home() {
           )}
           {gameMode === 'emoji' && (
             <input
-              className="mb-2 px-4 py-2 border-2 border-yellow-300 rounded w-full text-2xl text-gray-900 bg-yellow-50 placeholder:text-blue-700"
+              className="mb-2 px-3 sm:px-4 py-2 border-2 border-yellow-300 rounded w-full text-2xl text-gray-900 bg-yellow-50 placeholder:text-blue-700"
               type="text"
               placeholder="Your Emoji (e.g. 😎)"
               maxLength={2}
@@ -138,7 +138,7 @@ export default function Home() {
           )}
         </div>
         <button
-          className="mb-4 px-8 py-3 bg-blue-600 text-white rounded-xl text-lg font-bold shadow hover:bg-blue-700 transition disabled:opacity-50 w-full"
+          className="mb-2 sm:mb-4 px-4 sm:px-8 py-2 sm:py-3 bg-blue-600 text-white rounded-xl text-base sm:text-lg font-bold shadow hover:bg-blue-700 transition disabled:opacity-50 w-full"
           onClick={handleCreateRoom}
           disabled={loading}
         >
@@ -146,14 +146,14 @@ export default function Home() {
         </button>
         <div className="flex flex-col items-center w-full">
           <input
-            className="mb-2 px-4 py-2 border-2 border-yellow-300 rounded w-full uppercase text-lg text-gray-900 bg-yellow-50 placeholder:text-blue-700"
+            className="mb-2 px-3 sm:px-4 py-2 border-2 border-yellow-300 rounded w-full uppercase text-base sm:text-lg text-gray-900 bg-yellow-50 placeholder:text-blue-700"
             type="text"
             placeholder="Enter Room Code"
             value={roomCode}
             onChange={e => setRoomCode(e.target.value)}
           />
           <button
-            className="px-8 py-3 bg-green-600 text-white rounded-xl text-lg font-bold shadow hover:bg-green-700 transition w-full disabled:opacity-50"
+            className="px-4 sm:px-8 py-2 sm:py-3 bg-green-600 text-white rounded-xl text-base sm:text-lg font-bold shadow hover:bg-green-700 transition w-full disabled:opacity-50"
             onClick={handleJoinRoom}
             disabled={loading}
           >
