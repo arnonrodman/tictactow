@@ -2,11 +2,13 @@
 import React, { useState } from 'react';
 import { useRouter } from 'next/navigation';
 import { createRoom, joinRoom, getRoomByCode } from '../utils/gameRoomApi';
+import { createMultiRoom, joinMultiRoom, getMultiRoomByCode } from '../utils/multiPlayerGameRoomApi';
 
 const GAME_MODES = [
   { value: 'regular', label: 'Regular (X/O)', icon: '❌⭕', desc: 'Classic X and O' },
   { value: 'words', label: 'Words (3-letter)', icon: '🔤', desc: 'Use your own 3-letter word' },
   { value: 'emoji', label: 'Emoji', icon: '😎', desc: 'Play with your favorite emoji' },
+  { value: 'multi', label: 'Multi-Multi Player', icon: '👥', desc: 'Play with 3+ players' },
 ];
 
 export default function Home() {
@@ -17,6 +19,8 @@ export default function Home() {
   const [playerWord, setPlayerWord] = useState('');
   const [playerColor, setPlayerColor] = useState('#2563eb');
   const [gameMode, setGameMode] = useState('regular');
+  const [maxPlayers, setMaxPlayers] = useState(4);
+  const [isMultiMode, setIsMultiMode] = useState(false);
   const router = useRouter();
 
   const handleCreateRoom = async () => {
@@ -28,14 +32,29 @@ export default function Home() {
     setLoading(true);
     try {
       const player1_id = Math.random().toString(36).substring(2, 12); // temp anon id
-      const room = await createRoom({
-        player1_id,
-        player1_name: playerName,
-        player1_word: gameMode === 'words' || gameMode === 'emoji' ? playerWord : 'X',
-        player1_color: playerColor,
-        game_mode: gameMode,
-      });
-      router.push(`/game/${room.room_code}?pid=${player1_id}`);
+      
+      if (gameMode === 'multi') {
+        // Use Multi-Multi Player API
+        const room = await createMultiRoom({
+          creator_id: player1_id,
+          creator_name: playerName,
+          creator_word: playerWord || 'X',
+          creator_color: playerColor,
+          game_mode: 'words',
+          max_players: maxPlayers,
+        });
+        router.push(`/game/${room.room_code}?pid=${player1_id}&multi=true`);
+      } else {
+        // Use regular 2-player API
+        const room = await createRoom({
+          player1_id,
+          player1_name: playerName,
+          player1_word: gameMode === 'words' || gameMode === 'emoji' ? playerWord : 'X',
+          player1_color: playerColor,
+          game_mode: gameMode,
+        });
+        router.push(`/game/${room.room_code}?pid=${player1_id}`);
+      }
     } catch (e: any) {
       setError(e.message);
     } finally {
@@ -52,6 +71,27 @@ export default function Home() {
     setLoading(true);
     try {
       const player2_id = Math.random().toString(36).substring(2, 12); // temp anon id
+      
+      // First check if it's a multi-player room
+      try {
+        const multiRoom = await getMultiRoomByCode(roomCode.toUpperCase());
+        if (multiRoom) {
+          // It's a multi-player room
+          await joinMultiRoom({
+            room_code: roomCode.toUpperCase(),
+            player_id: player2_id,
+            player_name: playerName,
+            player_word: playerWord || 'O',
+            player_color: playerColor,
+          });
+          router.push(`/game/${roomCode.toUpperCase()}?pid=${player2_id}&multi=true`);
+          return;
+        }
+      } catch (e) {
+        // Not a multi-player room, try regular room
+      }
+      
+      // Try regular 2-player room
       await joinRoom({
         room_code: roomCode.toUpperCase(),
         player2_id,
@@ -161,6 +201,21 @@ export default function Home() {
           </button>
           {error && <p className="text-red-500 mt-2 text-center font-semibold">{error}</p>}
         </div>
+        {gameMode === 'multi' && (
+          <div className="mb-2 w-full">
+            <label className="block mb-1 font-semibold text-sm">Max Players</label>
+            <select
+              className="w-full px-3 sm:px-4 py-2 border-2 border-yellow-300 rounded bg-yellow-50"
+              value={maxPlayers}
+              onChange={e => setMaxPlayers(parseInt(e.target.value))}
+            >
+              <option value={3}>3 Players</option>
+              <option value={4}>4 Players</option>
+              <option value={5}>5 Players</option>
+              <option value={6}>6 Players</option>
+            </select>
+          </div>
+        )}
       </div>
     </div>
   );
